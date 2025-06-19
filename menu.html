@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive menu bar</title>
+    <script src="https://kit.fontawesome.com/ab2164bc4f.js" crossorigin="anonymous"></script>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body{
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            /* Added for content scrolling */
+            min-height: 200vh; 
+        }
+
+        #navbar{
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: transparent;
+            padding: 15px 30px; /* Increased horizontal padding */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            z-index: 1000;
+        }
+
+
+        #navbar.scrolled {
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo{
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #007BFF;
+            cursor: pointer;
+        }
+
+        .nav-menu {
+            list-style-type: none;
+            display: flex;
+            gap: 25px; /* Slightly increased gap */
+        }
+
+        .nav-menu li a{
+            text-decoration: none;
+            color: #333;
+            font-size: 1.2em;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .nav-menu li a::after {
+            content: '';
+            display: block;
+            width: 0;
+            left: 0;
+            bottom: -5px;
+            position: absolute;
+            height: 2px;
+            background-color: #007BFF;
+            transition: width 0.3s ease;
+        }
+        .nav-menu li a:hover::after {
+            width: 100%;
+        }
+
+        .nav-menu li a:hover {
+            color: #007BFF;
+        }
+
+        section{
+            padding: 120px 30px 50px;
+            text-align: center;
+        }
+
+        section h1 {
+           font-size: 2.5em;
+           margin-bottom: 10px;
+        }
+
+        section p {
+           font-size: 1.2em;
+           color: #555;
+        }
+
+        .menu-toggle{
+            display: none; /* Hidden by default */
+            cursor: pointer;
+        }
+
+        /* Style for the Font Awesome icon */
+        .menu-toggle i {
+            font-size: 1.8em;
+            color: #333;
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block; /* Show on small screens */
+            }
+
+            .nav-menu {
+                display: none; /* Hide by default on mobile */
+                position: absolute;
+                top: 70px; /* Position below navbar */
+                left: 0;
+                right: 0;
+                width: 100%;
+                background-color: #fff;
+                flex-direction: column;
+                gap: 0; /* Remove gap for full-width items */
+                padding: 10px 0;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+                align-items: center;
+            }
+            
+            .nav-menu li {
+                width: 100%;
+                text-align: center;
+            }
+
+            .nav-menu li a {
+                padding: 15px 0;
+                display: block; 
+                width: 100%;
+            }
+            .nav-menu li a:hover {
+                background-color: #f4f4f4;
+            }
+             .nav-menu li a::after {
+                display: none; 
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav id="navbar">
+        <div class="logo"> Menu Bar</div>
+        <div class="menu-toggle" id="menu-toggle">
+            <i class="fas fa-bars"></i>
+        </div>
+        <ul class="nav-menu" id="nav-menu">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">Contact</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">FAQ</a></li>
+        </ul>
+    </nav>
+   <section>
+    <h1>Welcome to Our Website</h1>
+    <p>This is a sample page with an interactive, responsive menu bar.</p>
+    <p>Click on the menu items to navigate. Scroll to see the navbar transform.</p>
+   </section>
+</body>
+<script>
+    const navbar = document.getElementById('navbar');
+    const menuToggle = document.getElementById('menu-toggle');
+    const navMenu = document.getElementById('nav-menu');
+    // Grab the icon itself to change it later
+    const menuIcon = menuToggle.querySelector('i');
+
+    window.addEventListener("scroll", () => {
+        if (window.scrollY > 50){
+            navbar.classList.add('scrolled');
+        }else{
+            navbar.classList.remove('scrolled');
+        }
+    });
+
+    menuToggle.addEventListener("click", () => {
+        navMenu.classList.toggle('active');
+
+        // Check if the menu is active to change the icon
+        const isActive = navMenu.classList.contains('active');
+        if (isActive) {
+            menuIcon.classList.remove('fa-bars');
+            menuIcon.classList.add('fa-times'); // Change to 'close' icon
+        } else {
+            menuIcon.classList.remove('fa-times');
+            menuIcon.classList.add('fa-bars'); // Change back to 'bars' icon
+        }
+    });
+</script>
+</html>
